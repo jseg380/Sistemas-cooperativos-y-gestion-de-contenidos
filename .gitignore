@@ -1,0 +1,7 @@
+# Notes of the subject
+notes/**
+
+
+# Volumes mounted with Docker
+db_data/**
+wp_data/**
