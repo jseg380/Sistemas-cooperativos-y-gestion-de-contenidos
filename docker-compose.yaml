@@ -5,7 +5,7 @@ services:
     image: mariadb:11.7.2-noble
     restart: no
     volumes:
-      - db_data:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
     environment:
       - MARIADB_ROOT_PASSWORD=RootPassword
       - MARIADB_DATABASE=wordpress_db
@@ -18,7 +18,7 @@ services:
     image: wordpress:6.7.2-php8.1-apache
     restart: no
     volumes:
-      - wp_data:/var/www/html
+      - ./wp_data:/var/www/html
     ports:
       - 80:80
     environment:
@@ -41,7 +41,3 @@ services:
       - MYSQL_PASSWORD=uberSafePassword
     depends_on:
       - db
-
-volumes:
-  db_data:
-  wp_data:
