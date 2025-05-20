@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  db:
+    image: mariadb:11.7.2-noble
+    restart: no
+    volumes:
+      - ./db_data:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=RootPassword
+      - MARIADB_DATABASE=joomla_db
+      - MARIADB_USER=joomlaAdmin
+      - MARIADB_PASSWORD=uberSafePassword
+    ports:
+      - 3306:3306
+
+  joomla:
+    image: joomla:5.3.0-php8.3-apache
+    restart: no
+    volumes:
+      - ./joomla_data:/var/www/html
+    ports:
+      - 80:80
+    environment:
+      - JOOMLA_DB_HOST=db:3306
+      - JOOMLA_DB_USER=joomlaAdmin
+      - JOOMLA_DB_PASSWORD=uberSafePassword
+      - JOOMLA_DB_NAME=joomla_db
+    depends_on:
+      - db
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.2-apache
+    restart: no
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=db:3306
+      - MYSQL_ROOT_PASSWORD=RootPassword
+      - MYSQL_USER=joomlaAdmin
+      - MYSQL_PASSWORD=uberSafePassword
+    depends_on:
+      - db
